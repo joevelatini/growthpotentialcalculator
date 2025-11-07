@@ -1,0 +1,291 @@
+import React, { useState } from 'react';
+import { TrendingUp, Users, DollarSign, Activity } from 'lucide-react';
+
+const GrowthCalculator = () => {
+  const [currentHeadcount, setCurrentHeadcount] = useState(250);
+  const [currentFTEGain, setCurrentFTEGain] = useState(15.6);
+  const [potentialHeadcount, setPotentialHeadcount] = useState(500);
+  const [avgSalary, setAvgSalary] = useState(65000);
+  const [showResults, setShowResults] = useState(false);
+
+  const generateResults = () => {
+    setShowResults(true);
+    setTimeout(() => {
+      document.getElementById('results')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  // Calculate FTE per employee ratio
+  const ftePerEmployee = currentFTEGain / currentHeadcount;
+  
+  // Calculate potential FTE gain based on potential headcount
+  const potentialFTEGain = potentialHeadcount * ftePerEmployee;
+  
+  // Calculate the growth in FTE
+  const fteGrowth = potentialFTEGain - currentFTEGain;
+
+  return (
+    <div style={{ fontFamily: 'Century Gothic, sans-serif', maxWidth: '900px', margin: '0 auto', padding: '40px 20px', backgroundColor: '#f7fafc', minHeight: '100vh' }}>
+      {/* Header */}
+      <div style={{ 
+        background: 'linear-gradient(135deg, #1a365d 0%, #2d5a8f 100%)', 
+        color: 'white', 
+        padding: '32px',
+        borderRadius: '12px',
+        marginBottom: '32px',
+        textAlign: 'center'
+      }}>
+        <h1 style={{ margin: '0 0 8px 0', fontSize: '32px' }}>Growth Potential Calculator</h1>
+        <p style={{ margin: 0, fontSize: '16px', opacity: 0.9 }}>
+          Visualize productivity gains as your team scales
+        </p>
+      </div>
+
+      {/* Input Section */}
+      <div style={{ 
+        background: 'white', 
+        padding: '32px', 
+        borderRadius: '12px',
+        marginBottom: '32px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+      }}>
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: 'bold', color: '#1a365d', fontSize: '16px' }}>
+            <Users size={20} />
+            Current Headcount:
+          </label>
+          <input
+            type="number"
+            value={currentHeadcount}
+            onChange={(e) => setCurrentHeadcount(Number(e.target.value))}
+            placeholder="Enter current number of employees"
+            style={{
+              width: '100%',
+              padding: '12px',
+              fontSize: '18px',
+              border: '2px solid #cbd5e0',
+              borderRadius: '8px',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: 'bold', color: '#1a365d', fontSize: '16px' }}>
+            <Activity size={20} />
+            Current FTE Gain:
+          </label>
+          <input
+            type="number"
+            step="0.1"
+            value={currentFTEGain}
+            onChange={(e) => setCurrentFTEGain(Number(e.target.value))}
+            placeholder="Enter current FTE gain"
+            style={{
+              width: '100%',
+              padding: '12px',
+              fontSize: '18px',
+              border: '2px solid #cbd5e0',
+              borderRadius: '8px',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: 'bold', color: '#1a365d', fontSize: '16px' }}>
+            <TrendingUp size={20} />
+            Potential Headcount:
+          </label>
+          <input
+            type="number"
+            value={potentialHeadcount}
+            onChange={(e) => setPotentialHeadcount(Number(e.target.value))}
+            placeholder="Enter potential number of employees"
+            style={{
+              width: '100%',
+              padding: '12px',
+              fontSize: '18px',
+              border: '2px solid #cbd5e0',
+              borderRadius: '8px',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: 'bold', color: '#1a365d', fontSize: '16px' }}>
+            <DollarSign size={20} />
+            Average Salary ($):
+          </label>
+          <input
+            type="number"
+            value={avgSalary}
+            onChange={(e) => setAvgSalary(Number(e.target.value))}
+            placeholder="Enter average annual salary"
+            style={{
+              width: '100%',
+              padding: '12px',
+              fontSize: '18px',
+              border: '2px solid #cbd5e0',
+              borderRadius: '8px',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+
+        <button
+          onClick={generateResults}
+          style={{
+            width: '100%',
+            padding: '16px',
+            background: 'linear-gradient(135deg, #1D316A 0%, #152548 100%)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            transition: 'transform 0.2s'
+          }}
+          onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+          onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+        >
+          Generate Growth Potential
+        </button>
+      </div>
+
+      {/* Results Section */}
+      {showResults && (
+        <div id="results" style={{ 
+          background: 'white', 
+          padding: '40px', 
+          borderRadius: '12px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+        }}>
+          <h2 style={{ color: '#1a365d', textAlign: 'center', fontSize: '28px', marginBottom: '32px' }}>
+            Growth Potential Analysis
+          </h2>
+
+          {/* Employee Comparison */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: '1fr auto 1fr',
+            gap: '32px',
+            alignItems: 'center',
+            marginBottom: '40px'
+          }}>
+            <div style={{ 
+              textAlign: 'center',
+              padding: '24px',
+              borderRadius: '12px',
+              background: '#f7fafc',
+              border: '2px solid #e2e8f0'
+            }}>
+              <div style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px', opacity: 0.8 }}>
+                Current Size
+              </div>
+              <div style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '8px' }}>
+                {currentHeadcount}
+              </div>
+              <div style={{ fontSize: '16px', opacity: 0.9 }}>Employees</div>
+            </div>
+
+            <div style={{ fontSize: '48px', color: '#1D316A', fontWeight: 'bold' }}>→</div>
+
+            <div style={{ 
+              textAlign: 'center',
+              padding: '24px',
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, #1D316A 0%, #152548 100%)',
+              color: 'white'
+            }}>
+              <div style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px', opacity: 0.8 }}>
+                Potential Size
+              </div>
+              <div style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '8px' }}>
+                {potentialHeadcount}
+              </div>
+              <div style={{ fontSize: '16px', opacity: 0.9 }}>Employees</div>
+            </div>
+          </div>
+
+          {/* Growth Summary */}
+          <div style={{
+            background: 'linear-gradient(135deg, #1D316A 0%, #152548 100%)',
+            color: 'white',
+            padding: '32px',
+            borderRadius: '12px',
+            textAlign: 'center',
+            marginBottom: '32px'
+          }}>
+            <h3 style={{ margin: '0 0 16px 0', fontSize: '20px', opacity: 0.95 }}>
+              Productivity Gain Potential
+            </h3>
+            <div style={{ fontSize: '56px', fontWeight: 'bold', marginBottom: '8px' }}>
+              +{fteGrowth.toFixed(1)} FTE
+            </div>
+            <div style={{ fontSize: '18px', opacity: 0.9 }}>
+              Additional full-time equivalents with growth
+            </div>
+          </div>
+
+          {/* FTE Comparison */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: '1fr auto 1fr',
+            gap: '32px',
+            alignItems: 'center',
+            marginBottom: '40px'
+          }}>
+            <div style={{ 
+              textAlign: 'center',
+              padding: '24px',
+              borderRadius: '12px',
+              background: '#f7fafc',
+              border: '2px solid #e2e8f0'
+            }}>
+              <div style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px', opacity: 0.8 }}>
+                Current FTE Gain
+              </div>
+              <div style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '8px' }}>
+                {currentFTEGain.toFixed(1)}
+              </div>
+              <div style={{ fontSize: '16px', opacity: 0.9 }}>FTE</div>
+            </div>
+
+            <div style={{ fontSize: '48px', color: '#1D316A', fontWeight: 'bold' }}>→</div>
+
+            <div style={{ 
+              textAlign: 'center',
+              padding: '24px',
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, #1D316A 0%, #152548 100%)',
+              color: 'white'
+            }}>
+              <div style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px', opacity: 0.8 }}>
+                Potential FTE Gain
+              </div>
+              <div style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '8px' }}>
+                {potentialFTEGain.toFixed(1)}
+              </div>
+              <div style={{ fontSize: '16px', opacity: 0.9 }}>FTE</div>
+            </div>
+          </div>
+
+          <div style={{ 
+            textAlign: 'center',
+            color: '#718096',
+            fontSize: '14px',
+            fontStyle: 'italic',
+            marginBottom: '24px'
+          }}>
+            Based on ${avgSalary.toLocaleString()} average salary and estimate based on current FTE analysis
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default GrowthCalculator;
